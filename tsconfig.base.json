@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    // ---- Emit & module system ----
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+
+    // ---- Type safety ----
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+
+    // ---- Output control (build pipeline) ----
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+
+    // ---- Paths alias (filled later) ----
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": ["packages/common/src/*"],
+      "@ui/*": ["packages/ui/src/*"],
+      "@events/*": ["packages/socket-events/src/*"]
+    }
+  },
+
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}
