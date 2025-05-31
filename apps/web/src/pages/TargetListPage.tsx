@@ -1,10 +1,10 @@
 import { Link } from 'react-router';
+import TargetsTable from '../features/targetList/components/targetsTable/TargetsTable';
 
 const TargetListPage = () => {
   return (
     <div>
-      <h1>Target List Page</h1>
-      <p>This is the target list page where you can view the targets.</p>
+      <TargetsTable />
       <Link to="/map">
         <button>Go to Map</button>
       </Link>
