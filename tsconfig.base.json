@@ -2,7 +2,7 @@
   "compilerOptions": {
     // ---- Emit & module system ----
     "target": "ES2022",
-    "module": "ESNext",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "esModuleInterop": true,
