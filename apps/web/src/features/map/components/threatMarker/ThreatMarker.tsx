@@ -3,9 +3,9 @@ import { useIsItemTracked } from '../../../targets/stores/targetStateStore';
 
 interface ThreatMarkerProps {
   target: Target;
+  isSelected: boolean;
 }
-
-const ThreatMarker = ({ target }: ThreatMarkerProps) => {
+const ThreatMarker = ({ target, isSelected }: ThreatMarkerProps) => {
   const isItemTracked = useIsItemTracked();
 
   const isUpdated = isItemTracked(target.id, 'updated');
@@ -22,9 +22,22 @@ const ThreatMarker = ({ target }: ThreatMarkerProps) => {
     transition: 'all 0.10s ease-in-out',
   };
 
+  const wrapperStyle = {
+    display: 'inline-block',
+    padding: 4,
+    border: '2px solid red',
+    borderRadius: 8,
+  };
+
   return (
     <>
-      <div style={markerStyle} />
+      {isSelected ? (
+        <div style={wrapperStyle}>
+          <div style={markerStyle} />
+        </div>
+      ) : (
+        <div style={markerStyle} />
+      )}
     </>
   );
 };
