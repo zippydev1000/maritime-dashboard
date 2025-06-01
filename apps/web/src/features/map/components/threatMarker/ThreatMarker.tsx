@@ -1,5 +1,7 @@
 import { Target } from '@maritime/common';
 import { useIsItemTracked } from '../../../targets/stores/targetStateStore';
+import { MarkerDot, MarkerWrapper } from './ThreatMarker.style';
+import { Tooltip } from '@mui/material';
 
 interface ThreatMarkerProps {
   target: Target;
@@ -11,34 +13,14 @@ const ThreatMarker = ({ target, isSelected }: ThreatMarkerProps) => {
   const isUpdated = isItemTracked(target.id, 'updated');
   const isInserted = isItemTracked(target.id, 'inserted');
 
-  const markerStyle = {
-    width: 12,
-    height: 12,
-    borderRadius: '50%',
-    border: '2px solid white',
-    backgroundColor: 'red',
-    boxShadow: isInserted || isUpdated ? '0 0 20px rgba(0,0,0,0.3)' : undefined,
-    transform: isInserted || isUpdated ? 'scale(1.2)' : 'scale(1)',
-    transition: 'all 0.10s ease-in-out',
-  };
-
-  const wrapperStyle = {
-    display: 'inline-block',
-    padding: 4,
-    border: '2px solid red',
-    borderRadius: 8,
-  };
+  const tooltipText = `ID: ${target.id} | Type: ${target.type}`;
 
   return (
-    <>
-      {isSelected ? (
-        <div style={wrapperStyle}>
-          <div style={markerStyle} />
-        </div>
-      ) : (
-        <div style={markerStyle} />
-      )}
-    </>
+    <Tooltip title={tooltipText} placement="top" sx={{ whiteSpace: 'nowrap' }}>
+      <MarkerWrapper selected={isSelected}>
+        <MarkerDot inserted={isInserted} updated={isUpdated} />
+      </MarkerWrapper>
+    </Tooltip>
   );
 };
 

@@ -1,8 +1,7 @@
-import { ThreatLevel } from '@maritime/common';
 export const getTimeAgo = (date: Date): string => {
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
 
-  if (seconds < 5) return 'just now';
+  if (seconds < 3) return 'just now';
   if (seconds < 60) return `${seconds} seconds ago`;
 
   const minutes = Math.floor(seconds / 60);
@@ -17,14 +16,4 @@ export const getTimeAgo = (date: Date): string => {
 
 export const getLastIdDigits = (id: string, length: number = 4): string => {
   return id.slice(-length);
-};
-
-export const getThreatLevelColor = (level: ThreatLevel): string => {
-  return threatLevelColorMap[level];
-};
-
-const threatLevelColorMap: Record<ThreatLevel, string> = {
-  HIGH: 'red',
-  MEDIUM: 'orange',
-  LOW: 'green',
 };

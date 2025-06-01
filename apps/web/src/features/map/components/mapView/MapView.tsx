@@ -29,7 +29,7 @@ const MapView = () => {
         initialViewState={INITIAL_VIEW}
         mapboxAccessToken={MAPBOX_TOKEN}
         reuseMaps
-        mapStyle="mapbox://styles/mapbox/streets-v11"
+        mapStyle="mapbox://styles/mapbox/navigation-night-v1"
         style={{ width: '100vw', height: '100vh' }}
         {...viewState}
         onMove={(evt) => setViewState(evt.viewState)}
