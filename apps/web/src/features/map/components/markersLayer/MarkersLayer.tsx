@@ -11,7 +11,7 @@ const MarkersLayer = () => {
 
     return targets.map((target) => (
       <Marker key={target.id} longitude={target.lon} latitude={target.lat} anchor="center">
-        <ThreatMarker />
+        <ThreatMarker target={target} />
       </Marker>
     ));
   }, [targets]);

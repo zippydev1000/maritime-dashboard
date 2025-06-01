@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useSocketStore } from '../../../common/stores/socketStore';
+import { socketStore } from '../../../common/stores/socketStore';
 import { Target } from '@maritime/common';
 import { TARGET_QUERY_KEY } from '../constants';
 import { TargetUpdateEvent } from '@maritime/socket-events';
+import { itemStateStore } from '../stores/targetStateStore';
 
 export const useTargetSocket = () => {
   const queryClient = useQueryClient();
-  const socket = useSocketStore((state) => state.socket);
-  const connect = useSocketStore((state) => state.connect);
+  const socket = socketStore((state) => state.socket);
+  const connect = socketStore((state) => state.connect);
+  const trackItem = itemStateStore((state) => state.trackItem);
 
   const handlerRef = useRef<((payload: TargetUpdateEvent) => void) | null>(null);
 
@@ -19,20 +21,23 @@ export const useTargetSocket = () => {
 
         update?.forEach((target) => {
           map.set(target.id, target);
+          trackItem(target.id, 'updated');
         });
 
         insert?.forEach((target) => {
           map.set(target.id, target);
+          trackItem(target.id, 'inserted');
         });
 
         remove?.forEach((id) => {
           map.delete(id);
+          trackItem(id, 'removed');
         });
 
         return Array.from(map.values());
       });
     },
-    [queryClient],
+    [queryClient, trackItem],
   );
 
   handlerRef.current = handler;
