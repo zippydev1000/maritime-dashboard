@@ -27,7 +27,7 @@ const socketOptions: Partial<ManagerOptions & SocketOptions> = {
   reconnectionAttempts: 5,
 };
 
-export const useSocketStore = create<SocketStore>()(
+export const socketStore = create<SocketStore>()(
   subscribeWithSelector((set, get) => ({
     socket: null,
     connectionState: 'disconnected',
