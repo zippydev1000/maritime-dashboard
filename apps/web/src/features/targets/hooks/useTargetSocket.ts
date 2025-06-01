@@ -5,12 +5,17 @@ import { Target } from '@maritime/common';
 import { TARGET_QUERY_KEY } from '../constants';
 import { TargetUpdateEvent } from '@maritime/socket-events';
 import { itemStateStore } from '../stores/targetStateStore';
+import { useSelectionStore } from '../stores/selectionStore';
 
 export const useTargetSocket = () => {
   const queryClient = useQueryClient();
   const socket = socketStore((state) => state.socket);
   const connect = socketStore((state) => state.connect);
   const trackItem = itemStateStore((state) => state.trackItem);
+  const setSelectedTargetCoordinates = useSelectionStore(
+    (state) => state.setSelectedTargetCoordinates,
+  );
+  const selectedTargetId = useSelectionStore((state) => state.selectedTargetId);
 
   const handlerRef = useRef<((payload: TargetUpdateEvent) => void) | null>(null);
 
@@ -22,6 +27,10 @@ export const useTargetSocket = () => {
         update?.forEach((target) => {
           map.set(target.id, target);
           trackItem(target.id, 'updated');
+
+          if (selectedTargetId === target.id) {
+            setSelectedTargetCoordinates({ lat: target.lat, lon: target.lon });
+          }
         });
 
         insert?.forEach((target) => {
@@ -32,6 +41,10 @@ export const useTargetSocket = () => {
         remove?.forEach((id) => {
           map.delete(id);
           trackItem(id, 'removed');
+
+          if (selectedTargetId === id) {
+            setSelectedTargetCoordinates(null);
+          }
         });
 
         return Array.from(map.values());

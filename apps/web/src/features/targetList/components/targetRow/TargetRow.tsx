@@ -1,6 +1,7 @@
 import { Target } from '@maritime/common';
 import { getTimeAgo, getLastIdDigits, getThreatLevelColor } from '../../utils/formatters';
 import { useIsItemTracked } from '../../../targets/stores/targetStateStore';
+import { useIsItemSelected, useSelectionStore } from '../../../targets/stores/selectionStore';
 interface TargetRowProps {
   target: Target;
 }
@@ -10,16 +11,39 @@ export const TargetRow = ({ target }: TargetRowProps) => {
   const lastIdDigits = getLastIdDigits(target.id, 4);
   const threatLevelColor = getThreatLevelColor(target.threat_level);
 
+  const setSelectedTargetId = useSelectionStore((state) => state.setSelectedTargetId);
+  const setSelectedTargetCoordinates = useSelectionStore(
+    (state) => state.setSelectedTargetCoordinates,
+  );
+
+  const isSelected = useIsItemSelected(target.id);
+
   const isItemTracked = useIsItemTracked();
 
   const isUpdated = isItemTracked(target.id, 'updated');
   const isInserted = isItemTracked(target.id, 'inserted');
 
   const rowStyle = {
-    backgroundColor: isInserted ? '#d1fae5' : isUpdated ? '#fef3c7' : undefined,
+    backgroundColor: isSelected
+      ? '#3b82f6'
+      : isInserted
+      ? '#d1fae5'
+      : isUpdated
+      ? '#fef3c7'
+      : undefined,
   };
 
   const highlightText = isUpdated || isInserted;
+
+  const handleRowClick = () => {
+    if (isSelected) {
+      setSelectedTargetId(null);
+      setSelectedTargetCoordinates(null);
+    } else {
+      setSelectedTargetId(target.id);
+      setSelectedTargetCoordinates({ lat: target.lat, lon: target.lon });
+    }
+  };
 
   return (
     <tr
@@ -28,6 +52,7 @@ export const TargetRow = ({ target }: TargetRowProps) => {
         fontWeight: highlightText ? 700 : 600,
         ...(highlightText && {}),
       }}
+      onClick={handleRowClick}
     >
       <td>{lastIdDigits}</td>
       <td>{lastIdDigits}</td>
