@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router';
 
-import HomePage from '../pages/HomePage';
-import NotFoundPage from '../pages/NotFoundPage';
-import TargetListPage from '../pages/TargetListPage';
-import MapPage from '../pages/MapPage';
+import HomePage from '../pages/homePage/HomePage';
+import NotFoundPage from '../pages/notFoundPage/NotFoundPage';
+import TargetListPage from '../pages/targetListPage/TargetListPage';
+import MapPage from '../pages/mapPage/MapPage';
 import AppLayout from './AppLayout';
 
 const AppRouter = createBrowserRouter([
