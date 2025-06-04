@@ -66,21 +66,41 @@ git clone https://github.com/zippydev1000/maritime-dashboard.git
 cd maritime-dashboard
 ```
 
-Configure Environment Variables:
+Create and Configure Environment Variables (inside the frontend app):
 
 ```bash
+cd apps/web
 cp .env.example .env
 ```
 
-Edit `.env` with your values:
+Edit `apps/web/.env` with your values:
 
 ```
-MAPBOX_TOKEN=<your_mapbox_access_token>
-API_PORT=4000
-FRONTEND_PORT=5173
+VITE_MAPBOX_TOKEN=<your_mapbox_access_token>
+VITE_API_BASE_URL=http://localhost:4000/api
+VITE_SOCKET_HOST=ws://localhost:4000
+VITE_SOCKET_PATH=/stream
 ```
 
-Install Dependencies:
+Go back to the root directory:
+
+```bash
+cd ../../
+```
+
+**Install Dependencies:**
+
+```bash
+pnpm install
+```
+
+**Build Internal Packages (required before local development):**
+
+```bash
+pnpm build
+```
+
+**Re-install Dependencies after Build:**
 
 ```bash
 pnpm install
